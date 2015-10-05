@@ -1,4 +1,5 @@
 require_relative "cursorable"
+require_relative "piece"
 
 class Display
   include Cursorable
