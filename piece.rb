@@ -179,6 +179,15 @@ class King < Piece
 
   def in_check?
     a, b = find_king
+
+    if color == :black
+      return true if @board.get_piece([a+1,b+1]).is_a?(Pawn) && @board.get_piece([a+1,b+1]).color == :white
+      return true if @board.get_piece([a+1,b-1]).is_a?(Pawn) && @board.get_piece([a+1,b-1]).color == :white
+    elsif color == :white
+      return true if @board.get_piece([a-1,b+1]).is_a?(Pawn) && @board.get_piece([a-1,b+1]).color == :black
+      return true if @board.get_piece([a-1,b-1]).is_a?(Pawn) && @board.get_piece([a-1,b-1]).color == :black
+    end
+
     #when :up
     (a-1).downto(0) { |i| danger?(i, b, :up) ? (return true) : (break if piece_same_color?(i, b)) }
     #when :down
