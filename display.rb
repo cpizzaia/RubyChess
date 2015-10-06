@@ -33,7 +33,7 @@ class Display
     x, y = @cursor_pos
     if x == i && y == j
       {background: :red}
-    elsif (i+j).odd?
+    elsif (i+j).even?
       {background: :white}
     else
       {background: :green}

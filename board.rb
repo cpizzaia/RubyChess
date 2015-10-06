@@ -49,9 +49,9 @@ class Board
       Bishop.new(:white, self)
     when [7,5]
       Bishop.new(:white, self)
-    when [0,4]
+    when [0,3]
       Queen.new(:black, self)
-    when [7,4]
+    when [7,3]
       Queen.new(:white, self)
     when [0,1]
       Knight.new(:black, self)
@@ -61,9 +61,9 @@ class Board
       Knight.new(:white, self)
     when [7,6]
       Knight.new(:white, self)
-    when [0,3]
+    when [0,4]
       King.new(:black, self)
-    when [7,3]
+    when [7,4]
       King.new(:white, self)
     else
       nil
