@@ -2,10 +2,8 @@ require_relative "cursorable"
 require_relative "piece"
 
 class Display
+
   include Cursorable
-
-
-
 
   def initialize
     @cursor_pos = [0,0]
