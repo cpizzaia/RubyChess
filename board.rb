@@ -75,4 +75,9 @@ class Board
     @grid[x][y]
   end
 
+  def get_piece(arr)
+    x, y = arr
+    @grid[x][y]
+  end
+
 end

@@ -1,15 +1,16 @@
 require_relative "board"
 require_relative "display"
+require "byebug"
 
 
 
 
 class Chess
-
+  attr_reader :white_king, :black_king
   def initialize(board = Board.new)
     @board = board
-    @black_king = @board.position([0,4])
-    @white_king = @board.position([7,4])
+    @black_king = @board.position([0,3])
+    @white_king = @board.position([7,3])
     @display = Display.new
   end
 
@@ -56,5 +57,10 @@ if __FILE__ == $PROGRAM_NAME
   game = Chess.new
   while true
     game.move(game.play)
+    if game.black_king.in_check?
+      puts "IN CHECK"
+      sleep(5)
+    end
+
   end
 end
