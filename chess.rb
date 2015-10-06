@@ -8,6 +8,8 @@ class Chess
 
   def initialize(board = Board.new)
     @board = board
+    @black_king = @board.position([0,4])
+    @white_king = @board.position([7,4])
     @display = Display.new
   end
 

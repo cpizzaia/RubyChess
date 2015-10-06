@@ -26,57 +26,61 @@ class Piece
   end
 
   private
-  def collision?(start, finish)
+
+  def piece_direction(start, finish)
     a, b = start
     x, y = finish
 
     if    x < a  && y == b #up
-      (x+1...a).each do |index|
-        return true if !@board.grid[index][b].nil?
-      end
-
+      :up
     elsif x > a  && y == b   #down
-      (a+1...x).each do |index|
-        return true if !@board.grid[index][b].nil?
-      end
-
+      :down
     elsif x == a && y < b #left
-      (y+1...b).each do |index|
-        return true if !@board.grid[a][index].nil?
-      end
-
+      :left
     elsif x == a && y > b #right
-      (b+1...y).each do |index|
-        return true if !@board.grid[a][index].nil?
-      end
-
+      :right
     elsif x < a  && y > b #upright -+
-      path_length = (y-b).abs
-      (1...path_length).each do |num|
-        return true if !@board.grid[a-num][b+num].nil?
-      end
-
+      :upright
     elsif x < a  && y < b#upleft --
-      path_length = (y-b).abs
-      (1...path_length).each do |num|
-        return true if !@board.grid[a-num][b-num].nil?
-      end
-
+      :upleft
     elsif x > a  && y > b #downright ++
-      path_length = (y-b).abs
-      (1...path_length).each do |num|
-        return true if !@board.grid[a+num][b+num].nil?
-      end
-
+      :downright
     elsif x > a  && y < b #downleft +-
-      path_length = (y-b).abs
-      (1...path_length).each do |num|
-        return true if !@board.grid[a+num][b-num].nil?
-      end
+      :downleft
+    end
+  end
 
+  def occupied_square? (row, col)
+    !@board.grid[row][col].nil?
+  end
+
+  def collision?(start, finish)
+    a, b = start
+    x, y = finish
+    path_length = (y-b).abs
+
+    case piece_direction(start, finish)
+    when :up
+      (x+1...a).each { |i| return true if occupied_square?(i, b) }
+    when :down
+      (a+1...x).each { |i| return true if occupied_square?(i, b) }
+    when :left
+      (y+1...b).each { |i| return true if occupied_square?(a, i) }
+    when :right
+      (b+1...y).each { |i| return true if occupied_square?(a, i) }
+
+    when :upright
+      (1...path_length).each { |i| return true if occupied_square?(a-i, b+i) }
+    when :downright
+      (1...path_length).each { |i| return true if occupied_square?(a+i, b+i) }
+    when :downleft
+      (1...path_length).each { |i| return true if occupied_square?(a+i, b-i) }
+    when :upleft
+      (1...path_length).each { |i| return true if occupied_square?(a-i, b-i) }
+    else
+      raise "error"
     end
     false
-
   end
 
 end
@@ -138,6 +142,17 @@ class King < Piece
     x,y = finish
     super if (x - a).abs < 2 && (y - b).abs < 2
   end
+  def position
+    @board.grid.each.with_index do |row, i|
+      row.each.with_index do |tile, j|
+        return [i,j] if @tile == self
+      end
+    end
+    puts "cannot find king"
+    sleep(5)
+  end
+
+
 end
 
 class Pawn < Piece
